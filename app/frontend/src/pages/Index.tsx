@@ -104,11 +104,12 @@ export default function Index() {
                 key={industry.name}
                 className="group relative overflow-hidden rounded-2xl border border-gray-700/50 hover:border-[#FF6B6B]/50 transition-all duration-300"
               >
-                <div className="aspect-[4/3] overflow-hidden">
-                  <div className={`w-full h-full bg-gradient-to-br ${industry.gradient} flex items-center justify-center group-hover:scale-105 transition-transform duration-500`}>
-                    <span className="text-6xl">{industry.emoji}</span>
-                  </div>
-                </div>
+             <div className="aspect-[4/3] overflow-hidden">
+  <div className="w-full h-full relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
+    <img src={industry.image} alt={industry.name} className="w-full h-full object-cover absolute inset-0" />
+    <div className={`absolute inset-0 bg-gradient-to-br ${industry.gradient} opacity-40`} />
+  </div>
+</div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                   <h3 className="text-lg font-semibold font-['Poppins']">{industry.name}</h3>
                 </div>
