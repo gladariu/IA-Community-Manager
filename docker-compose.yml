@@ -26,7 +26,7 @@ services:
       APP_AI_KEY: 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
       DATABASE_URL: postgresql://postgres:socialauto123@db:5432/socialauto
       SECRET_KEY: socialauto-secret-key-2024
-      ANTHROPIC_API_KEY: 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
+      ANTHROPIC_API_KEY: **************
       OIDC_CLIENT_ID: 654776980779-c2usolpk84b2riipqh2ajp4cvn09chm6.apps.googleusercontent.com
       OIDC_CLIENT_SECRET: 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
       OIDC_ISSUER_URL: https://accounts.google.com
