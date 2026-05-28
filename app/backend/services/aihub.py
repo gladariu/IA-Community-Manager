@@ -646,14 +646,17 @@ User instruction:
                     response_format=request.response_format
                 )
             else:
-                response = await client.images.generate(
-                    model=request.model,
-                    prompt=request.prompt,
-                    size=request.size,
-                    quality=request.quality,
-                    n=request.n,
-                    response_format=request.response_format
-                )
+                generate_params = {
+                    "model": request.model,
+                     "prompt": request.prompt,
+                     "size": request.size,
+                     "n": request.n,
+                }
+            if request.model not in ("gpt-image-2",):
+                generate_params["quality"] = request.quality
+                generate_params["response_format"] = request.response_format
+
+            response = await client.images.generate(**generate_params)
 
             revised_prompt = response.data[0].revised_prompt if response.data else None
 
