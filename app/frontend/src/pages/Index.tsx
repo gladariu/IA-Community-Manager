@@ -90,12 +90,15 @@ export default function Index() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { name: 'Bienes Raíces', emoji: '🏠', gradient: 'from-[#6C63FF]/40 to-[#4834d4]/30' },
-              { name: 'Abogados', emoji: '⚖️', gradient: 'from-[#2d3436]/60 to-[#636e72]/30' },
-              { name: 'Clínicas', emoji: '🏥', gradient: 'from-[#00b894]/40 to-[#00cec9]/30' },
-              { name: 'Talleres', emoji: '🔧', gradient: 'from-[#e17055]/40 to-[#d63031]/30' },
-              { name: 'Iglesias', emoji: '⛪', gradient: 'from-[#a29bfe]/40 to-[#6c5ce7]/30' },
-              { name: 'Emprendedores', emoji: '🚀', gradient: 'from-[#FF6B6B]/40 to-[#ee5a24]/30' },
+              { name: 'Bienes Raíces', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=80', gradient: 'from-[#6C63FF]/60 to-[#4834d4]/40' },
+              { name: 'Abogados', image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&q=80', gradient: 'from-[#2d3436]/60 to-[#636e72]/40' },
+              { name: 'Clínicas', image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80', gradient: 'from-[#00b894]/60 to-[#00cec9]/40' },
+              { name: 'Talleres', image: 'https://images.unsplash.com/photo-1530046339160-ce3e530de7e0?w=400&q=80', gradient: 'from-[#e17055]/60 to-[#d63031]/40' },
+              { name: 'Iglesias', image: 'https://images.unsplash.com/photo-1438232992991-995b671e5b9b?w=400&q=80', gradient: 'from-[#a29bfe]/60 to-[#6c5ce7]/40' },
+              { name: 'Emprendedores', image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=400&q=80', gradient: 'from-[#FF6B6B]/60 to-[#ee5a24]/40' },
+              { name: 'Restaurantes', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80', gradient: 'from-[#f9ca24]/60 to-[#f0932b]/40' },
+              { name: 'Barberías', image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80', gradient: 'from-[#6ab04c]/60 to-[#badc58]/40' },
+              { name: 'Gym', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80', gradient: 'from-[#e84393]/60 to-[#be2edd]/40' },
             ].map((industry) => (
               <div
                 key={industry.name}
