@@ -630,7 +630,7 @@ User instruction:
             GenImgResponse: generated image response, where `images` is a list of image refs (URL preferred; fallback to base64 data URI).
         """
         try:
-            client = self.image_client or self._require_ai_client()
+            client = self.image_client if self.image_client else self._require_ai_client()
             # If an input image is provided, use the image editing endpoint (img2img).
             if request.image:
                 image_files = await self._image_input_to_upload_files(request.image)
