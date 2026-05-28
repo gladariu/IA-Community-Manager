@@ -97,6 +97,13 @@ class AIHubService:
                     "anthropic-version": "2023-06-01",
                 },
             )
+	 self.image_client: Optional[AsyncOpenAI] = None
+        if hasattr(settings, 'app_ai_image_key') or 'APP_AI_IMAGE_KEY' in __import__('os').environ:
+            import os
+            self.image_client = AsyncOpenAI(
+                api_key=os.environ.get('APP_AI_IMAGE_KEY', ''),
+                base_url=os.environ.get('APP_AI_IMAGE_BASE_URL', 'https://api.openai.com/v1').rstrip("/"),
+            )
     def _require_ai_client(self) -> AsyncOpenAI:
         """Return the configured AI client or raise a configuration error."""
         if not self.client:
@@ -623,7 +630,7 @@ User instruction:
             GenImgResponse: generated image response, where `images` is a list of image refs (URL preferred; fallback to base64 data URI).
         """
         try:
-            client = self._require_ai_client()
+            client = self.image_client or self._require_ai_client()
             # If an input image is provided, use the image editing endpoint (img2img).
             if request.image:
                 image_files = await self._image_input_to_upload_files(request.image)
