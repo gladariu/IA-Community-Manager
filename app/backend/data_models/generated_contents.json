@@ -1,0 +1,45 @@
+{
+    "title": "generated_contents",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "user_id": {
+            "type": "string",
+            "description": "User ID"
+        },
+        "content_type": {
+            "type": "string",
+            "description": "Type of content: post, flyer, campaign"
+        },
+        "business_type": {
+            "type": "string",
+            "description": "Business type: restaurant, barbershop, real_estate, workshop"
+        },
+        "prompt": {
+            "type": "string",
+            "description": "User input prompt"
+        },
+        "result_text": {
+            "type": "string",
+            "description": "Generated text content"
+        },
+        "result_image_url": {
+            "type": "string",
+            "description": "Generated image URL if applicable"
+        },
+        "title": {
+            "type": "string",
+            "description": "Title of the generated content"
+        }
+    },
+    "required": [
+        "id",
+        "user_id",
+        "content_type",
+        "business_type",
+        "prompt"
+    ]
+}
