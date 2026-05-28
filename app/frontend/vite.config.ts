@@ -58,7 +58,7 @@ export default defineConfig(({ command }) => {
       port: parseInt(process.env.VITE_PORT || '3000'),
       proxy: {
         '/api': {
-          target: `http://socialauto_backend:8000`,
+          target: `https://ia-community-manager-production.up.railway.app`,
           changeOrigin: true,
         },
       },
