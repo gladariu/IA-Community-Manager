@@ -52,7 +52,7 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between px-4 mx-auto max-w-7xl">
         <Link to="/" className="flex items-center gap-2">
           <span className="text-xl font-bold font-['Poppins'] bg-gradient-to-r from-[#6C63FF] to-[#FF6B6B] bg-clip-text text-transparent">
-            Social Auto PTY
+            IA Community Manager
           </span>
         </Link>
 

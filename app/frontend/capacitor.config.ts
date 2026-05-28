@@ -5,9 +5,9 @@ const config: CapacitorConfig = {
   appName: 'IA Community Manager',
   webDir: 'dist',
   server: {
-    androidScheme: 'http',
-    url: 'http://10.42.200.135:3000',
-    cleartext: true
+    androidScheme: 'https',
+    url: 'https://ia-community-manager-rust.vercel.app',
+    cleartext: false
   }
 };
 
