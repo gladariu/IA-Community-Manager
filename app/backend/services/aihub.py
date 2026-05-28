@@ -97,9 +97,7 @@ class AIHubService:
                     "anthropic-version": "2023-06-01",
                 },
             )
-	 self.image_client: Optional[AsyncOpenAI] = None
-        if hasattr(settings, 'app_ai_image_key') or 'APP_AI_IMAGE_KEY' in __import__('os').environ:
-            import os
+        import os
         image_key = os.environ.get('APP_AI_IMAGE_KEY', '')
         image_url = os.environ.get('APP_AI_IMAGE_BASE_URL', 'https://api.openai.com/v1')
         self.image_client: Optional[AsyncOpenAI] = None
