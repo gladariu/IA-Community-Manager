@@ -91,7 +91,14 @@ function FlyerGeneratorContent() {
     setResultImage('');
     setFinalImage('');
 
-    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook. Leave a small blank space in the bottom right corner for a logo.`;
+    const logoAspect = logo ? (() => {
+      const img = new Image();
+      img.src = logo;
+      const ratio = img.naturalWidth / img.naturalHeight || 2.5;
+      return ratio > 1.5 ? 'wide horizontal rectangular' : ratio < 0.8 ? 'tall vertical rectangular' : 'square';
+    })() : 'rectangular';
+
+    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? ` Leave a clean white ${logoAspect} space in the bottom right corner approximately 260x130 pixels for a business logo placement.` : ' Leave a small blank space in the bottom right corner for a logo.'}`;
 
     try {
       const response = await client.ai.genimg(
