@@ -64,8 +64,8 @@ function FlyerGeneratorContent() {
           w = w * ratio;
           h = h * ratio;
 
-          const x = 1024 - w - margin;
-          const y = 1024 - h - margin;
+          const x = 1024 - w - margin - 10;
+          const y = 1024 - h - margin - 110;
 
           // Background
           ctx.fillStyle = 'rgba(255,255,255,0.9)';
