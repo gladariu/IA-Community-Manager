@@ -5,20 +5,20 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Download, Loader2 } from 'lucide-react';
+import { Download, Loader2, Upload } from 'lucide-react';
 import { client } from '@/lib/api';
 import { toast } from 'sonner';
 
 const BUSINESS_TYPES = [
-{ value: 'bienes_raices', label: 'Bienes Raíces' },
-{ value: 'abogados', label: 'Abogados' },
-{ value: 'clinicas', label: 'Clínicas' },
-{ value: 'talleres', label: 'Talleres' },
-{ value: 'iglesias', label: 'Iglesias' },
-{ value: 'emprendedores', label: 'Emprendedores' },
-{ value: 'restaurantes', label: 'Restaurantes' },
-{ value: 'barberias', label: 'Peluquerías/Barberías' },
-{ value: 'gym', label: 'Gym' },
+  { value: 'bienes_raices', label: 'Bienes Raíces' },
+  { value: 'abogados', label: 'Abogados' },
+  { value: 'clinicas', label: 'Clínicas' },
+  { value: 'talleres', label: 'Talleres' },
+  { value: 'iglesias', label: 'Iglesias' },
+  { value: 'emprendedores', label: 'Emprendedores' },
+  { value: 'restaurantes', label: 'Restaurantes' },
+  { value: 'barberias', label: 'Peluquerías/Barberías' },
+  { value: 'gym', label: 'Gym' },
 ];
 
 const STYLES = [
@@ -35,6 +35,7 @@ function FlyerGeneratorContent() {
   const [style, setStyle] = useState('moderno');
   const [resultImage, setResultImage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [logo, setLogo] = useState('');
 
   const handleGenerate = async () => {
     if (!businessType || !description) {
@@ -45,7 +46,7 @@ function FlyerGeneratorContent() {
     setLoading(true);
     setResultImage('');
 
-    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.`;
+    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? ' Include the uploaded business logo prominently in the design.' : ''}`;
 
     try {
       const response = await client.ai.genimg(
@@ -142,6 +143,36 @@ function FlyerGeneratorContent() {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Logo (opcional)</label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => setLogo(reader.result as string);
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className="hidden"
+                  id="logo-upload"
+                />
+                <label
+                  htmlFor="logo-upload"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700 text-gray-300 cursor-pointer hover:border-[#FF6B6B] transition-colors"
+                >
+                  <Upload className="h-4 w-4" />
+                  {logo ? 'Cambiar logo' : 'Subir logo'}
+                </label>
+                {logo && (
+                  <img src={logo} alt="Logo" className="h-10 w-10 object-contain rounded" />
+                )}
+              </div>
             </div>
 
             <Button
