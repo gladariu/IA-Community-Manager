@@ -94,7 +94,7 @@ function FlyerGeneratorContent() {
       return ratio > 1.5 ? 'wide horizontal rectangular' : ratio < 0.8 ? 'tall vertical rectangular' : 'square';
     })() : 'rectangular';
 
-    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook. Fill the entire design completely. Do not include any circular badges, placeholder circles, logo placeholders, or reserved spaces anywhere in the design.`;
+    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook. Important: leave the bottom right corner area (approximately 200x120 pixels) completely empty with no text, icons or design elements - this space will be used for a logo overlay.`;
 
     try {
       const response = await client.ai.genimg(
