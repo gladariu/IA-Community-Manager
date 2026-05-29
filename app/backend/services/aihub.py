@@ -647,14 +647,11 @@ User instruction:
                 )
             else:
                 generate_params = {
-                    "model": request.model,
-                     "prompt": request.prompt,
-                     "size": request.size,
-                     "n": request.n,
-                }
-            if request.model == "dall-e-3":
-                generate_params["quality"] = request.quality
-                generate_params["response_format"] = "url"
+                "model": request.model,
+                "prompt": request.prompt,
+                "size": request.size,
+                "n": request.n,
+            }
             response = await client.images.generate(**generate_params)
             logger.info(f"genimg response data: {response.data[0] if response.data else 'empty'}")
 
