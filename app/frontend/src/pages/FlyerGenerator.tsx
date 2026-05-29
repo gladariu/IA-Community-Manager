@@ -81,7 +81,12 @@ function FlyerGeneratorContent() {
 
   const handleDownload = () => {
     if (resultImage) {
-      window.open(resultImage, '_blank');
+      const link = document.createElement('a');
+      link.href = resultImage;
+      link.download = 'flyer.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
