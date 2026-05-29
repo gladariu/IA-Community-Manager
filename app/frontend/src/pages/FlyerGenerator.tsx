@@ -94,7 +94,7 @@ function FlyerGeneratorContent() {
       return ratio > 1.5 ? 'wide horizontal rectangular' : ratio < 0.8 ? 'tall vertical rectangular' : 'square';
     })() : 'rectangular';
 
-    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? `Important: do NOT leave any blank white space anywhere in the design. Fill the entire flyer with content and design elements.. Do not place any text, icons, design elements, borders or decorations in that area. That space is reserved for a logo overlay.` : ' Leave a small blank space in the bottom right corner for a logo.'}`;
+    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook. Fill the entire design completely, do not leave any blank or empty spaces anywhere.`;
 
     try {
       const response = await client.ai.genimg(
