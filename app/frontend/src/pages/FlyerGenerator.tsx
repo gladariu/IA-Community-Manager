@@ -53,8 +53,8 @@ function FlyerGeneratorContent() {
 
         const logoImg = new Image();
         logoImg.onload = () => {
-          const maxWidth = 220;
-          const maxHeight = 100;
+          const maxWidth = 280;
+          const maxHeight = 130;
           const margin = 16;
 
           // Maintain aspect ratio
