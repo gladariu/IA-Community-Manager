@@ -10,12 +10,15 @@ import { client } from '@/lib/api';
 import { toast } from 'sonner';
 
 const BUSINESS_TYPES = [
-  { value: 'bienes_raices', label: 'Bienes Raíces' },
-  { value: 'abogados', label: 'Abogados' },
-  { value: 'clinicas', label: 'Clínicas' },
-  { value: 'talleres', label: 'Talleres' },
-  { value: 'iglesias', label: 'Iglesias' },
-  { value: 'emprendedores', label: 'Emprendedores' },
+{ value: 'bienes_raices', label: 'Bienes Raíces' },
+{ value: 'abogados', label: 'Abogados' },
+{ value: 'clinicas', label: 'Clínicas' },
+{ value: 'talleres', label: 'Talleres' },
+{ value: 'iglesias', label: 'Iglesias' },
+{ value: 'emprendedores', label: 'Emprendedores' },
+{ value: 'restaurantes', label: 'Restaurantes' },
+{ value: 'barberias', label: 'Barberías' },
+{ value: 'gym', label: 'Gym' },
 ];
 
 const TONES = [
