@@ -53,9 +53,9 @@ function FlyerGeneratorContent() {
 
         const logoImg = new Image();
         logoImg.onload = () => {
-          const maxWidth = 160;
-          const maxHeight = 80;
-          const margin = 24;
+          const maxWidth = 200;
+          const maxHeight = 100;
+          const margin = 20;
 
           // Maintain aspect ratio
           let w = logoImg.width;
