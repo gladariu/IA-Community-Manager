@@ -53,8 +53,9 @@ function FlyerGeneratorContent() {
 
         const logoImg = new Image();
         logoImg.onload = () => {
-          const maxWidth = 240;
-          const maxHeight = 110;
+          const maxWidth = 260;
+          const maxHeight = 13
+		  0;
           const margin = 10;
 
           // Maintain aspect ratio
@@ -64,8 +65,8 @@ function FlyerGeneratorContent() {
           w = w * ratio;
           h = h * ratio;
 
-          const spaceWidth = 280;
-          const spaceHeight = 140;
+          const spaceWidth = 300;
+          const spaceHeight = 160;
           const spaceX = 1024 - spaceWidth - margin;
           const spaceY = 1024 - spaceHeight - margin - 80;
           const x = spaceX + (spaceWidth - w) / 2;
@@ -102,7 +103,7 @@ function FlyerGeneratorContent() {
       return ratio > 1.5 ? 'wide horizontal rectangular' : ratio < 0.8 ? 'tall vertical rectangular' : 'square';
     })() : 'rectangular';
 
-    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? ` Leave a clean white ${logoAspect} empty box in the BOTTOM RIGHT CORNER of the flyer, approximately 180x90 pixels, with a subtle rounded border, specifically reserved for a business logo. Do not put any text or design elements inside this box..` : ' Leave a small blank space in the bottom right corner for a logo.'}`;
+    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? ` Leave a clean white ${logoAspect} empty box in the BOTTOM RIGHT CORNER of the flyer, exactly 150x70 pixels, with a subtle rounded border, specifically reserved for a business logo. Do not put any text or design elements inside this box..` : ' Leave a small blank space in the bottom right corner for a logo.'}`;
 
     try {
       const response = await client.ai.genimg(
