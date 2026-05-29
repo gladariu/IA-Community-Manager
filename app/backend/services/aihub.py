@@ -657,6 +657,8 @@ User instruction:
                 generate_params["response_format"] = request.response_format
 
             response = await client.images.generate(**generate_params)
+            logger.info(f"genimg response data: {response.data[0] if response.data else 'empty'}")
+
 
             revised_prompt = response.data[0].revised_prompt if response.data else None
 
