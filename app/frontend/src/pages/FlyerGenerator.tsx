@@ -53,18 +53,26 @@ function FlyerGeneratorContent() {
 
         const logoImg = new Image();
         logoImg.onload = () => {
-          const logoSize = 120;
-          const margin = 20;;
-          const x = 1024 - logoSize - margin;
-          const y = 1024 - logoSize - margin;
+          const maxWidth = 160;
+          const maxHeight = 80;
+          const margin = 24;
 
-          // White background circle for logo
-          // Reemplaza el ctx.beginPath()... ctx.fill() por:
-          ctx.fillStyle = 'rgba(255,255,255,0.85)';
-          ctx.roundRect(x - 8, y - 8, logoSize + 16, logoSize + 16, 12);
+          // Maintain aspect ratio
+          let w = logoImg.width;
+          let h = logoImg.height;
+          const ratio = Math.min(maxWidth / w, maxHeight / h);
+          w = w * ratio;
+          h = h * ratio;
+
+          const x = 1024 - w - margin;
+          const y = 1024 - h - margin;
+
+          // Background
+          ctx.fillStyle = 'rgba(255,255,255,0.9)';
+          ctx.roundRect(x - 10, y - 10, w + 20, h + 20, 10);
           ctx.fill();
 
-          ctx.drawImage(logoImg, x, y, logoSize, logoSize);
+          ctx.drawImage(logoImg, x, y, w, h);
           resolve(canvas.toDataURL('image/png'));
         };
         logoImg.src = logoSrc;
