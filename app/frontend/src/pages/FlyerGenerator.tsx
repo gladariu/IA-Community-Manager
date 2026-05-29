@@ -150,7 +150,7 @@ function FlyerGeneratorContent() {
               <div className="flex items-center gap-3">
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/jpg"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) {
