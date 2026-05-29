@@ -68,11 +68,6 @@ function FlyerGeneratorContent() {
           const x = 1024 - w - margin;
           const y = 1024 - h - margin;
 
-          // White background
-          ctx.fillStyle = 'rgba(255,255,255,0.92)';
-          ctx.roundRect(x - 12, y - 12, w + 24, h + 24, 10);
-          ctx.fill();
-
           ctx.drawImage(logoImg, x, y, w, h);
           resolve(canvas.toDataURL('image/png'));
         };
@@ -99,7 +94,7 @@ function FlyerGeneratorContent() {
       return ratio > 1.5 ? 'wide horizontal rectangular' : ratio < 0.8 ? 'tall vertical rectangular' : 'square';
     })() : 'rectangular';
 
-    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? ` Leave a clean white ${logoAspect} empty box in the BOTTOM RIGHT CORNER of the flyer, approximately 180x90 pixels, with a subtle rounded border, specifically reserved for a business logo. Do not put any text or design elements inside this box.` : ' Leave a small blank space in the bottom right corner for a logo.'}`;
+    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? `Leave the BOTTOM RIGHT CORNER completely empty and clean, approximately 200x100 pixels. Do not place any text, icons, design elements, borders or decorations in that area. That space is reserved for a logo overlay.` : ' Leave a small blank space in the bottom right corner for a logo.'}`;
 
     try {
       const response = await client.ai.genimg(
