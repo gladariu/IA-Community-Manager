@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -36,6 +36,42 @@ function FlyerGeneratorContent() {
   const [resultImage, setResultImage] = useState('');
   const [loading, setLoading] = useState(false);
   const [logo, setLogo] = useState('');
+  const [finalImage, setFinalImage] = useState('');
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const overlayLogoOnImage = (flyer: string, logoSrc: string): Promise<string> => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 1024;
+      const ctx = canvas.getContext('2d')!;
+
+      const flyerImg = new Image();
+      flyerImg.crossOrigin = 'anonymous';
+      flyerImg.onload = () => {
+        ctx.drawImage(flyerImg, 0, 0, 1024, 1024);
+
+        const logoImg = new Image();
+        logoImg.onload = () => {
+          const logoSize = 180;
+          const margin = 30;
+          const x = 1024 - logoSize - margin;
+          const y = 1024 - logoSize - margin;
+
+          // White background circle for logo
+          ctx.beginPath();
+          ctx.arc(x + logoSize / 2, y + logoSize / 2, logoSize / 2 + 8, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,255,255,0.9)';
+          ctx.fill();
+
+          ctx.drawImage(logoImg, x, y, logoSize, logoSize);
+          resolve(canvas.toDataURL('image/png'));
+        };
+        logoImg.src = logoSrc;
+      };
+      flyerImg.src = flyer;
+    });
+  };
 
   const handleGenerate = async () => {
     if (!businessType || !description) {
@@ -45,18 +81,28 @@ function FlyerGeneratorContent() {
 
     setLoading(true);
     setResultImage('');
+    setFinalImage('');
 
-    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? ' Include the uploaded business logo prominently in the design.' : ''}`;
+    const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook. Leave a small blank space in the bottom right corner for a logo.`;
 
     try {
-     const response = await client.ai.genimg(
-  { prompt, model: 'gpt-image-2', size: '1024x1024' },
-  { timeout: 600000 }
-);
+      const response = await client.ai.genimg(
+        { prompt, model: 'gpt-image-2', size: '1024x1024' },
+        { timeout: 600000 }
+      );
 
       const imageUrl = response?.data?.images?.[0];
       if (imageUrl) {
         setResultImage(imageUrl);
+
+        // If logo exists, overlay it on the flyer
+        if (logo) {
+          const combined = await overlayLogoOnImage(imageUrl, logo);
+          setFinalImage(combined);
+        } else {
+          setFinalImage(imageUrl);
+        }
+
         try {
           await client.entities.generated_contents.create({
             data: {
@@ -81,15 +127,18 @@ function FlyerGeneratorContent() {
   };
 
   const handleDownload = () => {
-    if (resultImage) {
+    const src = finalImage || resultImage;
+    if (src) {
       const link = document.createElement('a');
-      link.href = resultImage;
+      link.href = src;
       link.download = 'flyer.png';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
   };
+
+  const displayImage = finalImage || resultImage;
 
   return (
     <div className="min-h-screen bg-[#1A1A2E]">
@@ -146,11 +195,13 @@ function FlyerGeneratorContent() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Logo (opcional)</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Logo (opcional) {logo && <span className="text-green-400 ml-2">✓ Cargado</span>}
+              </label>
               <div className="flex items-center gap-3">
                 <input
                   type="file"
-                  accept="image/jpeg,image/jpg"
+                  accept="image/*"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) {
@@ -170,9 +221,12 @@ function FlyerGeneratorContent() {
                   {logo ? 'Cambiar logo' : 'Subir logo'}
                 </label>
                 {logo && (
-                  <img src={logo} alt="Logo" className="h-10 w-10 object-contain rounded" />
+                  <img src={logo} alt="Logo" className="h-12 w-12 object-contain rounded bg-white p-1" />
                 )}
               </div>
+              {logo && (
+                <p className="text-xs text-gray-500 mt-1">El logo se añadirá automáticamente al flyer generado.</p>
+              )}
             </div>
 
             <Button
@@ -194,7 +248,7 @@ function FlyerGeneratorContent() {
           <div className="p-6 rounded-2xl bg-gray-800/30 border border-gray-700/50">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-white font-['Poppins']">Resultado</h3>
-              {resultImage && (
+              {displayImage && (
                 <Button variant="ghost" size="sm" onClick={handleDownload} className="text-gray-400 hover:text-white">
                   <Download className="h-4 w-4" />
                 </Button>
@@ -206,14 +260,15 @@ function FlyerGeneratorContent() {
                   <Loader2 className="h-10 w-10 animate-spin text-[#FF6B6B] mx-auto" />
                   <p className="text-gray-400">Generando tu flyer... esto puede tomar un momento.</p>
                 </div>
-              ) : resultImage ? (
-                <img src={resultImage} alt="Flyer generado" className="w-full h-auto rounded-lg" />
+              ) : displayImage ? (
+                <img src={displayImage} alt="Flyer generado" className="w-full h-auto rounded-lg" />
               ) : (
                 <p className="text-gray-500 italic">Tu flyer generado aparecerá aquí...</p>
               )}
             </div>
           </div>
         </div>
+        <canvas ref={canvasRef} className="hidden" />
       </main>
     </div>
   );
