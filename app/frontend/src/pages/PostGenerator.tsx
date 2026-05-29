@@ -17,7 +17,7 @@ const BUSINESS_TYPES = [
 { value: 'iglesias', label: 'Iglesias' },
 { value: 'emprendedores', label: 'Emprendedores' },
 { value: 'restaurantes', label: 'Restaurantes' },
-{ value: 'barberias', label: 'Barberías' },
+{ value: 'barberias', label: 'Peluquerías/Barberías' },
 { value: 'gym', label: 'Gym' },
 ];
 

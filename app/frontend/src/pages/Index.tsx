@@ -97,7 +97,7 @@ export default function Index() {
 { name: 'Iglesias', image: 'https://images.pexels.com/photos/208216/pexels-photo-208216.jpeg?w=400', gradient: 'from-[#a29bfe]/40 to-[#6c5ce7]/30' },
 { name: 'Emprendedores', image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?w=400', gradient: 'from-[#FF6B6B]/40 to-[#ee5a24]/30' },
 { name: 'Restaurantes', image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?w=400', gradient: 'from-[#f9ca24]/40 to-[#f0932b]/30' },
-{ name: 'Barberías', image: 'https://images.pexels.com/photos/1813272/pexels-photo-1813272.jpeg?w=400', gradient: 'from-[#6ab04c]/40 to-[#badc58]/30' },
+{ name: 'Peluquerías/Barberías', image: 'https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?w=400', gradient: 'from-[#6ab04c]/40 to-[#badc58]/30' },
 { name: 'Gym', image: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?w=400', gradient: 'from-[#e84393]/40 to-[#be2edd]/30' },
             ].map((industry) => (
               <div
