@@ -49,7 +49,7 @@ function FlyerGeneratorContent() {
 
     try {
       const response = await client.ai.genimg(
-        { prompt, model: 'gpt-image-2', size: '1024x1024' },
+        { prompt, model: 'dall-e-3', size: '1024x1024' },
         { timeout: 600000 }
       );
 
