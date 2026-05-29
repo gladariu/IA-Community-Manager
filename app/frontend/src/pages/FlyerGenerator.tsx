@@ -49,10 +49,10 @@ function FlyerGeneratorContent() {
     const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.${logo ? ' Include the uploaded business logo prominently in the design.' : ''}`;
 
     try {
-      const response = await client.ai.genimg(
-        { prompt, model: 'gpt-image-2', size: '1024x1024' },
-        { timeout: 600000 }
-      );
+     const response = await client.ai.genimg(
+  { prompt, model: 'gpt-image-2', size: '1024x1024', ...(logo ? { image: logo } : {}) },
+  { timeout: 600000 }
+);
 
       const imageUrl = response?.data?.images?.[0];
       if (imageUrl) {
