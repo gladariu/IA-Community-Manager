@@ -177,10 +177,10 @@ export default function Index() {
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <span className="text-xl font-bold font-['Poppins'] bg-gradient-to-r from-[#6C63FF] to-[#FF6B6B] bg-clip-text text-transparent">
-              Social Auto PTY
+              IA Community Manager
             </span>
             <p className="text-gray-500 text-sm">
-              © 2026 Social Auto PTY. Todos los derechos reservados.
+              © 2026 IA Community Manager. Todos los derechos reservados.
             </p>
           </div>
         </div>
