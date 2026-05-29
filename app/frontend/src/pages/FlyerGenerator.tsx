@@ -53,15 +53,15 @@ function FlyerGeneratorContent() {
 
         const logoImg = new Image();
         logoImg.onload = () => {
-          const logoSize = 180;
-          const margin = 30;
+          const logoSize = 120;
+          const margin = 20;;
           const x = 1024 - logoSize - margin;
           const y = 1024 - logoSize - margin;
 
           // White background circle for logo
-          ctx.beginPath();
-          ctx.arc(x + logoSize / 2, y + logoSize / 2, logoSize / 2 + 8, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255,255,255,0.9)';
+          // Reemplaza el ctx.beginPath()... ctx.fill() por:
+          ctx.fillStyle = 'rgba(255,255,255,0.85)';
+          ctx.roundRect(x - 8, y - 8, logoSize + 16, logoSize + 16, 12);
           ctx.fill();
 
           ctx.drawImage(logoImg, x, y, logoSize, logoSize);
