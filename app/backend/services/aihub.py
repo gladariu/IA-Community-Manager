@@ -163,9 +163,20 @@ class AIHubService:
         Generate Text API (streaming), supports text and image input.
         """
         try:
-            import anthropic
-            client = anthropic.AsyncAnthropic(api_key=settings.app_ai_key)
-            messages = [self._convert_message(msg) for msg in request.messages]
+            client = self._require_ai_client()
+            messages = [{"role": msg.role, "content": msg.content if isinstance(msg.content, str) else str(msg.content)} for msg in request.messages]
+            
+            system_msg = next((msg for msg in request.messages if msg.role == "system"), None)
+            user_messages = [{"role": msg.role, "content": msg.content if isinstance(msg.content, str) else str(msg.content)} for msg in request.messages if msg.role != "system"]
+            
+            async with client.chat.completions.stream(
+                model=request.model,
+                messages=[{"role": "system", "content": system_msg.content}] + user_messages if system_msg else user_messages,
+                max_tokens=request.max_tokens or 4096,
+            ) as stream:
+                async for chunk in stream:
+                    if chunk.choices and chunk.choices[0].delta.content:
+                        yield chunk.choices[0].delta.content
             
             system_msg = None
             filtered_messages = []
