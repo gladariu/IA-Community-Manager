@@ -92,10 +92,7 @@ class AIHubService:
         if settings.app_ai_base_url and settings.app_ai_key:
             self.client = AsyncOpenAI(
                 api_key=settings.app_ai_key,
-                base_url="https://api.anthropic.com/v1",
-                default_headers={
-                    "anthropic-version": "2023-06-01",
-                },
+                base_url=settings.app_ai_base_url.rstrip("/"),
             )
         import os
         image_key = os.environ.get('APP_AI_IMAGE_KEY', '')
