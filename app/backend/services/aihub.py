@@ -117,64 +117,30 @@ class AIHubService:
             content = [item.model_dump() if hasattr(item, "model_dump") else item for item in content]
         return {"role": msg.role, "content": content}
 
-    async def gentxt(self, request: GenTxtRequest) -> GenTxtResponse:
+    async def gentxt_stream(self, request: GenTxtRequest) -> AsyncGenerator[str, None]:
         """
-        Generate Text API (non-streaming), supports text and image input.
-
-        Args:
-            request: Generate text request parameters.
-
-        Returns:
-            Txt2TxtResponse: generated text response.
+        Generate Text API (streaming), supports text and image input.
         """
         try:
             client = self._require_ai_client()
-            messages = [self._convert_message(msg) for msg in request.messages]
-
-            response = await client.chat.completions.create(
+            messages = [{"role": msg.role, "content": msg.content if isinstance(msg.content, str) else str(msg.content)} for msg in request.messages]
+            
+            system_msg = next((msg for msg in request.messages if msg.role == "system"), None)
+            user_messages = [{"role": msg.role, "content": msg.content if isinstance(msg.content, str) else str(msg.content)} for msg in request.messages if msg.role != "system"]
+            
+            async with client.chat.completions.stream(
                 model=request.model,
-                messages=messages,
-                temperature=request.temperature,
-                max_tokens=request.max_tokens,
-                stream=False,
-            )
-
-            content = response.choices[0].message.content or ""
-            usage = None
-            if response.usage:
-                usage = {
-                    "prompt_tokens": response.usage.prompt_tokens,
-                    "completion_tokens": response.usage.completion_tokens,
-                    "total_tokens": response.usage.total_tokens,
-                }
-
-            return GenTxtResponse(
-                content=content,
-                model=request.model,
-                usage=usage,
-            )
+                messages=[{"role": "system", "content": system_msg.content}] + user_messages if system_msg else user_messages,
+                max_tokens=request.max_tokens or 4096,
+            ) as stream:
+                async for chunk in stream:
+                    if chunk.choices and chunk.choices[0].delta.content:
+                        yield chunk.choices[0].delta.content
 
         except Exception as e:
-            logger.error(f"gentxt error: {e}")
+            logger.error(f"gentxt_stream error: {e}")
             raise
 
-    system_msg = None
-            filtered_messages = []
-            for msg in messages:
-                if msg.get("role") == "system":
-                    system_msg = msg.get("content", "")
-                else:
-                    filtered_messages.append(msg)
-            kwargs = {
-                "model": request.model,
-                "messages": filtered_messages,
-                "max_tokens": request.max_tokens or 4096,
-            }
-            if system_msg:
-                kwargs["system"] = system_msg
-            async with client.messages.stream(**kwargs) as stream:
-                async for text in stream.text_stream:
-                    yield text
     @staticmethod
     def _extract_image_ref(item: object) -> str:
         """
