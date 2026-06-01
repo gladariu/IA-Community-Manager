@@ -158,34 +158,13 @@ class AIHubService:
             logger.error(f"gentxt error: {e}")
             raise
 
-    async def gentxt_stream(self, request: GenTxtRequest) -> AsyncGenerator[str, None]:
-        """
-        Generate Text API (streaming), supports text and image input.
-        """
-        try:
-            client = self._require_ai_client()
-            messages = [{"role": msg.role, "content": msg.content if isinstance(msg.content, str) else str(msg.content)} for msg in request.messages]
-            
-            system_msg = next((msg for msg in request.messages if msg.role == "system"), None)
-            user_messages = [{"role": msg.role, "content": msg.content if isinstance(msg.content, str) else str(msg.content)} for msg in request.messages if msg.role != "system"]
-            
-            async with client.chat.completions.stream(
-                model=request.model,
-                messages=[{"role": "system", "content": system_msg.content}] + user_messages if system_msg else user_messages,
-                max_tokens=request.max_tokens or 4096,
-            ) as stream:
-                async for chunk in stream:
-                    if chunk.choices and chunk.choices[0].delta.content:
-                        yield chunk.choices[0].delta.content
-            
-            system_msg = None
+    system_msg = None
             filtered_messages = []
             for msg in messages:
                 if msg.get("role") == "system":
                     system_msg = msg.get("content", "")
                 else:
                     filtered_messages.append(msg)
-
             kwargs = {
                 "model": request.model,
                 "messages": filtered_messages,
@@ -193,15 +172,9 @@ class AIHubService:
             }
             if system_msg:
                 kwargs["system"] = system_msg
-
             async with client.messages.stream(**kwargs) as stream:
                 async for text in stream.text_stream:
                     yield text
-
-        except Exception as e:
-            logger.error(f"gentxt_stream error: {e}")
-            raise
-
     @staticmethod
     def _extract_image_ref(item: object) -> str:
         """
