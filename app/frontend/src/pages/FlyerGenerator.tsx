@@ -95,17 +95,24 @@ function FlyerGeneratorContent() {
     })() : 'rectangular';
 
     const prompt = `Create a professional social media flyer for a ${businessType} business in Panama. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.
-    The design must completely fill the canvas with no white space, empty space, transparent areas, or unfinished sections.
-    Reserve the loer-right corner (approximately 10-15% of the canvas) as a clean rectangular safe area. This area must be a single flat solid color that matches the overall design palette.
-    IMPORTANT:
-    - No text inside this area.
-    - No images inside this area.
-    - No icons inside this area.
-    - No decorations inside this area.
-    - No patterns, gradients, shadows, or visual effects inside this area.
-    - Keep this area completely clean and unobstructed for future placement of a logo, QR code, pricing information, or call-to-action elements.
-    The rest of the flyer should be fully populated with professional marketing content, product photography, and design elements.
-    Do not include any circular badges, placeholder circles, logo placeholders, watermarks, empty frames, or reserved spaces anywhere else in the design.`;
+
+The design must completely fill the entire canvas with no white space, blank areas, transparent regions, or unfinished sections.
+
+Reserve the lower-right corner (approximately 20-25% of the canvas) as a clean area that seamlessly continues the flyer background and overall design style. This area must blend naturally with the rest of the composition and look like an intentional part of the design.
+
+IMPORTANT:
+
+* No text in this area.
+* No product photos in this area.
+* No icons in this area.
+* No decorative elements in this area.
+* No patterns or visual clutter in this area.
+* Keep the area visually clean and simple while maintaining the same background colors, gradients, textures, and design language as the rest of the flyer.
+* The area should remain suitable for adding a logo, QR code, price, contact information, or call-to-action later.
+
+The rest of the flyer should be fully populated with professional marketing content and visual elements.
+
+Do not include any circular badges, placeholder circles, logo placeholders, watermarks, empty frames, or reserved spaces anywhere else in the design.`;
 
     try {
       const response = await client.ai.genimg(
