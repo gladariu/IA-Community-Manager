@@ -97,7 +97,7 @@ function FlyerGeneratorContent() {
     const prompt = `Create a professional social media flyer for a ${businessType} business. The flyer is about: ${description}. Style: ${style}. Include bold text, vibrant colors, and a modern layout. The text should be in Spanish. Make it eye-catching and suitable for Instagram or Facebook.
     The design must completely fill the entire canvas edge-to-edge with a continuous, cohesive composition. The background, colors, textures, gradients, and visual elements must flow naturally across the entire image without creating separate sections, boxes, panels, empty spaces, placeholders, or reserved areas.
     IMPORTANT TEXT PLACEMENT RULE:
-    Do not place any text, headlines, prices, captions, labels, or typography in the lower-right 15% of the image. The background and design elements should continue naturally through this area exactly as they do throughout the rest of the flyer, but without any text. This part shoulde be creatrd with a solid color which should continue naturally through this area exactly as they do throughout the rest of the flyer.
+    Do not place any text, headlines, prices, captions, labels, or typography in the lower-right 15% of the image. The background and design elements should continue naturally through this area exactly as they do throughout the rest of the flyer, but without any text and if possible one solid color.
     The lower-right area should not appear empty, isolated, reserved, framed, highlighted, or visually different from the rest of the design. It must remain fully integrated into the overall composition.
     Do not include any circular badges, placeholder circles, logo placeholders, watermarks, empty frames, reserved spaces, or blank sections anywhere in the design.`;
 
