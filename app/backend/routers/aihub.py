@@ -127,7 +127,7 @@ async def generate_text(
     """
     try:
         service = AIHubService()
-        request.model = "claude-haiku-4-5-20251001"
+        request.model = "gpt-4o-mini"
 
         # Decide response mode based on the `stream` parameter
         if request.stream:

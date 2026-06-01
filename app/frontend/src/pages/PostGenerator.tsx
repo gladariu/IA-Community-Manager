@@ -55,7 +55,7 @@ function PostGeneratorContent() {
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
         ],
-        model: 'gpt-5.4',
+        model: 'gpt-4o-mini',
         stream: true,
         onChunk: (chunk) => {
           if (chunk.content) {
