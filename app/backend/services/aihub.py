@@ -123,19 +123,23 @@ class AIHubService:
         """
         try:
             client = self._require_ai_client()
-            messages = [{"role": msg.role, "content": msg.content if isinstance(msg.content, str) else str(msg.content)} for msg in request.messages]
-            
             system_msg = next((msg for msg in request.messages if msg.role == "system"), None)
             user_messages = [{"role": msg.role, "content": msg.content if isinstance(msg.content, str) else str(msg.content)} for msg in request.messages if msg.role != "system"]
             
-            async with client.chat.completions.stream(
+            all_messages = []
+            if system_msg:
+                all_messages.append({"role": "system", "content": system_msg.content if isinstance(system_msg.content, str) else str(system_msg.content)})
+            all_messages.extend(user_messages)
+            
+            stream = await client.chat.completions.create(
                 model=request.model,
-                messages=[{"role": "system", "content": system_msg.content}] + user_messages if system_msg else user_messages,
+                messages=all_messages,
                 max_tokens=request.max_tokens or 4096,
-            ) as stream:
-                async for chunk in stream:
-                    if chunk.choices and chunk.choices[0].delta.content:
-                        yield chunk.choices[0].delta.content
+                stream=True,
+            )
+            async for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
 
         except Exception as e:
             logger.error(f"gentxt_stream error: {e}")
