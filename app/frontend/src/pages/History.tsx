@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { Button } from '@/components/ui/button';
-import { Trash2, MessageSquare, Image, Calendar, Loader2 } from 'lucide-react';
+import { Trash2, MessageSquare, Image, Calendar, Loader2, Copy, Download, Check } from 'lucide-react';
 import { client } from '@/lib/api';
 import { toast } from 'sonner';
 
@@ -19,6 +19,7 @@ interface ContentItem {
 function HistoryContent() {
   const [items, setItems] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
 
   const fetchHistory = async () => {
     try {
@@ -47,6 +48,26 @@ function HistoryContent() {
     } catch {
       toast.error('Error al eliminar');
     }
+  };
+
+  const handleCopy = async (text: string, id: number) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      toast.success('Copiado al portapapeles');
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch {
+      toast.error('Error al copiar');
+    }
+  };
+
+  const handleDownload = (imageUrl: string, title: string) => {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = `${title || 'flyer'}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const getTypeIcon = (type: string) => {
@@ -132,14 +153,49 @@ function HistoryContent() {
                     )}
                     <p className="text-gray-500 text-xs mt-2">{formatDate(item.created_at)}</p>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDelete(item.id)}
-                    className="text-gray-500 hover:text-red-400 hover:bg-red-400/10 shrink-0"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    {/* Copiar post */}
+                    {item.result_text && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleCopy(item.result_text!, item.id)}
+                        className="text-gray-500 hover:text-[#6C63FF] hover:bg-[#6C63FF]/10"
+                        title="Copiar texto"
+                      >
+                        {copiedId === item.id ? (
+                          <Check className="h-4 w-4 text-green-400" />
+                        ) : (
+                          <Copy className="h-4 w-4" />
+                        )}
+                      </Button>
+                    )}
+
+                    {/* Descargar flyer */}
+                    {item.result_image_url && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDownload(item.result_image_url!, item.title)}
+                        className="text-gray-500 hover:text-[#FF6B6B] hover:bg-[#FF6B6B]/10"
+                        title="Descargar flyer"
+                      >
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    )}
+
+                    {/* Eliminar */}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDelete(item.id)}
+                      className="text-gray-500 hover:text-red-400 hover:bg-red-400/10"
+                      title="Eliminar"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
