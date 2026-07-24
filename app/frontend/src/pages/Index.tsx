@@ -133,7 +133,7 @@ export default function Index() {
                 Plan Mensual
               </div>
               <div className="space-y-1">
-                <span className="text-5xl font-bold font-['Poppins']">$29</span>
+                <span className="text-5xl font-bold font-['Poppins']">$10</span>
                 <span className="text-gray-400">/mes</span>
               </div>
               <ul className="space-y-3 text-left text-gray-300">
@@ -177,10 +177,10 @@ export default function Index() {
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <span className="text-xl font-bold font-['Poppins'] bg-gradient-to-r from-[#6C63FF] to-[#FF6B6B] bg-clip-text text-transparent">
-              IA Community Manager
+              AI Marketing Creator
             </span>
             <p className="text-gray-500 text-sm">
-              © 2026 IA Community Manager. Todos los derechos reservados.
+              © 2026 AI Marketing Creator. Todos los derechos reservados.
             </p>
           </div>
         </div>
